@@ -15,7 +15,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
     }
 });
 
-const User = sequelize.define('users', {
+const SystemUsers = sequelize.define('users', {
     first_name: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -56,7 +56,7 @@ const User = sequelize.define('users', {
 
 });
 
-User.prototype.validPassword = function (password) {
+SystemUsers.prototype.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 };
 
@@ -65,4 +65,4 @@ sequelize.sync()
     .catch(error => console.log('This error occured', error));
 
 // export User model for use in other files.
-module.exports = User;
+module.exports = SystemUsers;

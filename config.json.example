@@ -1,6 +1,6 @@
 {
-  "username": "macrina",
-  "password": "ROOT",
+  "username": "root",
+  "password": "root",
   "database": "user-auth",
   "host": "127.0.0.1",
   "dialect": "mysql",

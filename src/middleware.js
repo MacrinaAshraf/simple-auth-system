@@ -14,6 +14,7 @@ app.use(morgan('dev'));
 
 // initialize body-parser to parse incoming parameters requests to req.body
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(cookieParser());
 

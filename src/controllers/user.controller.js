@@ -27,7 +27,6 @@ const validateInput = (body) => {
 const userController = {};
 
 userController.addUser = (req, res) => {
-    console.log(req.body);
 
     // check that all inputs are not empty
     const validationErr = validateInput(req.body);
@@ -46,7 +45,7 @@ userController.addUser = (req, res) => {
         date_of_birth: req.body.date,
     })
         .then(user => {
-            console.log(user);
+            // console.log(user);
             res.redirect('/login');
         })
         .catch(error => {
@@ -55,24 +54,24 @@ userController.addUser = (req, res) => {
         });
 }
 
-userController.login = (req, res) => {
+userController.login = async (req, res) => {
     const email = req.body.email,
         password = req.body.password;
 
     const validationErr = validateInput(req.body);
 
     if (validationErr !== null) {
-        return res.send({ error: validationErr });
+        return res.status(401).send({ error: validationErr });
     }
 
-    User.findOne({ where: { email: email } }).then(function (user) {
+    await User.findOne({ where: { email: email } }).then(function (user) {
         if (!user) {
-            res.send({
+            res.status(401).send({
                 error: "There is no user with that email"
             })
             // res.redirect('/login');
         } else if (!user.validPassword(password)) {
-            res.send({
+            res.status(401).send({
                 error: "You entered a wrong password"
             })
             // res.redirect('/login');
@@ -104,7 +103,7 @@ userController.getUserLastLogin = (req, res) => {
 
     User.findOne({ where: { username: username } }).then((user) => {
         if (!user) {
-            res.send({
+            res.status(404).send({
                 error: 'This user does not exist'
             })
         }
